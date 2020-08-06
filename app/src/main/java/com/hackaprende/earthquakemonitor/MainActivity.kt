@@ -3,6 +3,7 @@ package com.hackaprende.earthquakemonitor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hackaprende.earthquakemonitor.databinding.ActivityMainBinding
 
@@ -33,6 +34,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             recyclerView.visibility = View.VISIBLE
             binding.eqEmptyView.visibility = View.GONE
+        }
+
+        adapter.setOnItemClickListener {
+            Toast.makeText(this, "Earthquake magnitude: ${it.magnitude}", Toast.LENGTH_SHORT).show()
         }
     }
 }
