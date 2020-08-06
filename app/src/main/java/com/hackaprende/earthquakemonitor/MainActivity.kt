@@ -2,6 +2,7 @@ package com.hackaprende.earthquakemonitor
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hackaprende.earthquakemonitor.databinding.ActivityMainBinding
 
@@ -25,5 +26,13 @@ class MainActivity : AppCompatActivity() {
         eqList.add(Earthquake("5", "Earthquake 5", 4.8, 1234456778L, "red", 24.1029, -110.17236))
         eqList.add(Earthquake("6", "Earthquake 6", 7.1, 1234456778L, "red", 24.1029, -110.17236))
         adapter.submitList(eqList)
+
+        if (adapter.itemCount == 0) {
+            recyclerView.visibility = View.GONE
+            binding.eqEmptyView.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            binding.eqEmptyView.visibility = View.GONE
+        }
     }
 }
