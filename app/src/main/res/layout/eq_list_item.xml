@@ -19,6 +19,7 @@
             android:textColor="@color/text_black"
             android:textSize="18sp"
             android:gravity="center"
+            android:textStyle="bold"
             tools:text="4.6" />
 
         <ImageView
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_chevron_right_black" />
+            android:src="@drawable/ic_chevron_right_gray" />
 
         <TextView
             android:id="@+id/eq_list_item_title"

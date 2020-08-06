@@ -34,7 +34,6 @@ class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(DiffCallback) {
         fun bind(earthquake: Earthquake) {
             binding.eqListItemMagnitude.text = earthquake.magnitude.toString()
             binding.eqListItemTitle.text = earthquake.title
-
         }
     }
 }
