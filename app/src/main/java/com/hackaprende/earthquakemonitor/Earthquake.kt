@@ -1,4 +1,4 @@
 package com.hackaprende.earthquakemonitor
 
 data class Earthquake(val id: String, val place: String, val magnitude: Double, val time: Long,
-                      val alert: String, val latitude: Double, val longitude: Double)
+                      val latitude: Double, val longitude: Double)

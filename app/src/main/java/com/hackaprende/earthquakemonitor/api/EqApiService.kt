@@ -2,17 +2,17 @@ package com.hackaprende.earthquakemonitor.api
 
 import com.hackaprende.earthquakemonitor.Constants
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
 private val retrofit = Retrofit.Builder()
     .baseUrl(Constants.BASE_URL)
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(MoshiConverterFactory.create())
     .build()
 
 interface EarthquakeApiService {
     @GET(Constants.GET_LAST_HOUR_URL)
-    suspend fun getLastHourEarthquakes(): String
+    suspend fun getLastHourEarthquakes(): EarthquakeJsonResponse
 }
 
 object EarthquakesApi {
