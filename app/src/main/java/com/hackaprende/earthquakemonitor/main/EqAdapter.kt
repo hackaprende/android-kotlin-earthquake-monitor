@@ -1,13 +1,16 @@
-package com.hackaprende.earthquakemonitor
+package com.hackaprende.earthquakemonitor.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.hackaprende.earthquakemonitor.Earthquake
 import com.hackaprende.earthquakemonitor.databinding.EqListItemBinding
 
-class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(DiffCallback) {
+class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(
+    DiffCallback
+) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<Earthquake>() {
         override fun areItemsTheSame(oldItem: Earthquake, newItem: Earthquake): Boolean {
