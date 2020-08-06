@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = binding.eqRecycler
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = EqAdapter()
+        val adapter = EqAdapter(this)
         recyclerView.adapter = adapter
 
         adapter.setOnItemClickListener {

@@ -1,14 +1,16 @@
 package com.hackaprende.earthquakemonitor.main
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.hackaprende.earthquakemonitor.Earthquake
+import com.hackaprende.earthquakemonitor.R
 import com.hackaprende.earthquakemonitor.databinding.EqListItemBinding
 
-class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(
+class EqAdapter(val context: Context) : ListAdapter<Earthquake, EqAdapter.ViewHolder>(
     DiffCallback
 ) {
 
@@ -41,7 +43,8 @@ class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(
     inner class ViewHolder(private val binding: EqListItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(earthquake: Earthquake) {
-            binding.eqListItemMagnitude.text = earthquake.magnitude.toString()
+            binding.eqListItemMagnitude.text = context.getString(R.string.magnitude_format,
+                earthquake.magnitude)
             binding.eqListItemTitle.text = earthquake.place
 
             binding.root.setOnClickListener {

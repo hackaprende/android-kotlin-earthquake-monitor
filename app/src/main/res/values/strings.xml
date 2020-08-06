@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Earthquake Monitor</string>
     <string name="no_earthquakes_registered">No earthquakes registered in the last hour.</string>
+    <string name="magnitude_format">%.2f</string>
 </resources>
