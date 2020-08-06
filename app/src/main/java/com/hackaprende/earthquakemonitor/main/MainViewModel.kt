@@ -5,9 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hackaprende.earthquakemonitor.Earthquake
+import com.hackaprende.earthquakemonitor.api.EarthquakesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONException
+import org.json.JSONObject
+import java.net.UnknownHostException
 
 class MainViewModel: ViewModel() {
     private val _eqList = MutableLiveData<MutableList<Earthquake>>()
@@ -26,21 +30,43 @@ class MainViewModel: ViewModel() {
 
     private suspend fun fetchEqList(): MutableList<Earthquake> {
         return withContext(Dispatchers.IO) {
-            val eqList = mutableListOf<Earthquake>()
-            eqList.add(Earthquake("1", "Earthquake 1", 5.5, 1234456778L,
-                "red", 24.1029, -110.17236))
-            eqList.add(Earthquake("2", "Earthquake 2", 8.2, 1234456778L,
-                "red", 24.1029, -110.17236))
-            eqList.add(Earthquake("3", "Earthquake 3", 3.0, 1234456778L,
-                "red", 24.1029, -110.17236))
-            eqList.add(Earthquake("4", "Earthquake 4", 4.3, 1234456778L,
-                "red", 24.1029, -110.17236))
-            eqList.add(Earthquake("5", "Earthquake 5", 4.8, 1234456778L,
-                "red", 24.1029, -110.17236))
-            eqList.add(Earthquake("6", "Earthquake 6", 7.1, 1234456778L,
-                "red", 24.1029, -110.17236))
-
+            val eqList: MutableList<Earthquake> =
+            try {
+                val lastHourEarthquakes = EarthquakesApi.retrofitService.getLastHourEarthquakes()
+                parseStringResult(lastHourEarthquakes)
+            } catch (e: UnknownHostException) {
+                mutableListOf()
+            } catch (e: JSONException) {
+                mutableListOf()
+            }
             eqList
         }
+    }
+
+    private fun parseStringResult(stringResult: String): MutableList<Earthquake> {
+        val eqList = mutableListOf<Earthquake>()
+
+        val eqJsonObject = JSONObject(stringResult)
+        val featuresJsonArray = eqJsonObject.getJSONArray("features")
+
+        for (i in 0 until featuresJsonArray.length()) {
+            val jsonFeature = featuresJsonArray[i] as JSONObject
+
+            val id = jsonFeature.getString("id")
+            val jsonProperties = jsonFeature.getJSONObject("properties")
+            val place = jsonProperties.getString("place")
+            val magnitude = jsonProperties.getDouble("mag")
+            val time = jsonProperties.getLong("time")
+            val alert = jsonProperties.getString("alert")
+
+            val jsonCoordinates = jsonFeature.getJSONObject("geometry").getJSONArray("coordinates")
+            val latitude = jsonCoordinates.getDouble(0)
+            val longitude = jsonCoordinates.getDouble(1)
+
+            val earthquake = Earthquake(id, place, magnitude, time, alert, latitude, longitude)
+            eqList.add(earthquake)
+        }
+
+        return eqList
     }
 }

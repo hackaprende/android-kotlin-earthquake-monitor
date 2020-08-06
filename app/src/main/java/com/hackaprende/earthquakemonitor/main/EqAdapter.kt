@@ -42,7 +42,7 @@ class EqAdapter : ListAdapter<Earthquake, EqAdapter.ViewHolder>(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(earthquake: Earthquake) {
             binding.eqListItemMagnitude.text = earthquake.magnitude.toString()
-            binding.eqListItemTitle.text = earthquake.title
+            binding.eqListItemTitle.text = earthquake.place
 
             binding.root.setOnClickListener {
                 if (::onItemClickListener.isInitialized) {
