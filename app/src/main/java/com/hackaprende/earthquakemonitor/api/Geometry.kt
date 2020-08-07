@@ -1,6 +1,8 @@
 package com.hackaprende.earthquakemonitor.api
 
-class Geometry(private val coordinates: Array<Double>) {
-    val longitude = coordinates[0]
-    val latitude = coordinates[1]
+class Geometry(val type: String, val coordinates: Array<Double>) {
+    val longitude: Double
+        get() = coordinates[0]
+    val latitude: Double
+        get() = coordinates[1]
 }

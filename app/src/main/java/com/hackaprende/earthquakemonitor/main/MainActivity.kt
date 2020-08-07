@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Earthquake magnitude: ${it.magnitude}", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.eqList.observe(this, Observer {
+        viewModel.eqListLiveData.observe(this, Observer {
             adapter.submitList(it)
-            if (adapter.itemCount == 0) {
+            if (it.size == 0) {
                 recyclerView.visibility = View.GONE
                 binding.eqEmptyView.visibility = View.VISIBLE
             } else {
