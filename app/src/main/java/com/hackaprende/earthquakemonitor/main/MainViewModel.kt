@@ -9,7 +9,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val database = getDatabase(application)
     private val repository = MainRepository(database)
 
-    val eqList = repository.eqList
+    val eqListLiveData = repository.eqList
 
     init {
         viewModelScope.launch {

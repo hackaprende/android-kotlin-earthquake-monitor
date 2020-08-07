@@ -17,7 +17,8 @@ class MainRepository(private val database: EqDatabase) {
         return withContext(Dispatchers.IO) {
             val earthquakeJsonResponse =
                 EarthquakesApi.retrofitService.getLastHourEarthquakes()
-            database.eqDao.insertAll(getEarthquakeListFromResponse(earthquakeJsonResponse))
+            val earthquakes = getEarthquakeListFromResponse(earthquakeJsonResponse)
+            database.eqDao.insertAll(earthquakes)
         }
     }
 

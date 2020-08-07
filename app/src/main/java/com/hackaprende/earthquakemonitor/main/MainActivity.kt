@@ -1,13 +1,15 @@
 package com.hackaprende.earthquakemonitor.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hackaprende.earthquakemonitor.Earthquake
 import com.hackaprende.earthquakemonitor.databinding.ActivityMainBinding
+import com.hackaprende.earthquakemonitor.details.EqDetailActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         adapter.setOnItemClickListener {
-            Toast.makeText(this, "Earthquake magnitude: ${it.magnitude}", Toast.LENGTH_SHORT).show()
+            openDetailActivity(it)
         }
 
         viewModel.eqListLiveData.observe(this, Observer {
@@ -38,5 +40,11 @@ class MainActivity : AppCompatActivity() {
                 binding.eqEmptyView.visibility = View.GONE
             }
         })
+    }
+
+    private fun openDetailActivity(earthquake: Earthquake) {
+        val intent = Intent(this, EqDetailActivity::class.java)
+        intent.putExtra(EqDetailActivity.EQ_KEY, earthquake)
+        startActivity(intent)
     }
 }
