@@ -11,19 +11,13 @@ import java.net.UnknownHostException
 
 class MainRepository(private val database: EqDatabase) {
 
-    suspend fun fetchEqList(): MutableList<Earthquake> {
-        return withContext(Dispatchers.IO) {
-            val eqList: MutableList<Earthquake> = try {
-                val earthquakeJsonResponse = EarthquakesApi.retrofitService.getLastHourEarthquakes()
-                database.eqDao.insertAll(getEarthquakeListFromResponse(earthquakeJsonResponse))
-                database.eqDao.getEarthquakes()
-            } catch (e: UnknownHostException) {
-                mutableListOf()
-            } catch (e: JSONException) {
-                mutableListOf()
-            }
+    val eqList = database.eqDao.getEarthquakes()
 
-            eqList
+    suspend fun fetchEqList() {
+        return withContext(Dispatchers.IO) {
+            val earthquakeJsonResponse =
+                EarthquakesApi.retrofitService.getLastHourEarthquakes()
+            database.eqDao.insertAll(getEarthquakeListFromResponse(earthquakeJsonResponse))
         }
     }
 
