@@ -3,18 +3,20 @@ package com.hackaprende.earthquakemonitor.main
 import com.hackaprende.earthquakemonitor.Earthquake
 import com.hackaprende.earthquakemonitor.api.EarthquakeJsonResponse
 import com.hackaprende.earthquakemonitor.api.EarthquakesApi
+import com.hackaprende.earthquakemonitor.database.EqDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONException
 import java.net.UnknownHostException
 
-class MainRepository {
+class MainRepository(private val database: EqDatabase) {
 
     suspend fun fetchEqList(): MutableList<Earthquake> {
         return withContext(Dispatchers.IO) {
             val eqList: MutableList<Earthquake> = try {
                 val earthquakeJsonResponse = EarthquakesApi.retrofitService.getLastHourEarthquakes()
-                getEarthquakeListFromResponse(earthquakeJsonResponse)
+                database.eqDao.insertAll(getEarthquakeListFromResponse(earthquakeJsonResponse))
+                database.eqDao.getEarthquakes()
             } catch (e: UnknownHostException) {
                 mutableListOf()
             } catch (e: JSONException) {

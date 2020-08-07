@@ -15,8 +15,8 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel = ViewModelProvider(this)
-            .get(MainViewModel::class.java)
+        val viewModel = ViewModelProvider(this,
+            MainViewModelFactory(application)).get(MainViewModel::class.java)
 
         val recyclerView = binding.eqRecycler
         recyclerView.layoutManager = LinearLayoutManager(this)

@@ -9,8 +9,8 @@ import com.hackaprende.earthquakemonitor.Earthquake
 @Dao
 interface EqDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg earthquakes: Earthquake)
+    fun insertAll(earthquakes: MutableList<Earthquake>)
 
     @Query("select * from eq_table")
-    fun getEarthquakes(): List<Earthquake>
+    fun getEarthquakes(): MutableList<Earthquake>
 }

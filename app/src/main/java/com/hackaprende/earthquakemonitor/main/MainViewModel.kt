@@ -1,18 +1,18 @@
 package com.hackaprende.earthquakemonitor.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import com.hackaprende.earthquakemonitor.Earthquake
+import com.hackaprende.earthquakemonitor.database.getDatabase
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _eqList = MutableLiveData<MutableList<Earthquake>>()
     val eqList: LiveData<MutableList<Earthquake>>
         get() = _eqList
 
-    private val repository = MainRepository()
+    private val database = getDatabase(application)
+    private val repository = MainRepository(database)
 
     init {
         getEqList()
