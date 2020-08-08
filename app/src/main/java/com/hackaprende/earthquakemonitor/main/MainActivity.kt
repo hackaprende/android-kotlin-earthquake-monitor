@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hackaprende.earthquakemonitor.Earthquake
+import com.hackaprende.earthquakemonitor.R
+import com.hackaprende.earthquakemonitor.api.ApiResponseStatus
 import com.hackaprende.earthquakemonitor.databinding.ActivityMainBinding
 import com.hackaprende.earthquakemonitor.details.EqDetailActivity
 
@@ -38,6 +41,19 @@ class MainActivity : AppCompatActivity() {
             } else {
                 recyclerView.visibility = View.VISIBLE
                 binding.eqEmptyView.visibility = View.GONE
+            }
+        })
+
+        viewModel.statusLiveData.observe(this, Observer {
+            if (it == ApiResponseStatus.LOADING) {
+                binding.loadingWheel.visibility = View.VISIBLE
+            } else {
+                binding.loadingWheel.visibility = View.GONE
+            }
+
+            if (it == ApiResponseStatus.NO_INTERNET_CONNECTION) {
+                Toast.makeText(this, R.string.no_internet_connection,
+                    Toast.LENGTH_SHORT).show()
             }
         })
     }

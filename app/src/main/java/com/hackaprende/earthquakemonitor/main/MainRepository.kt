@@ -6,11 +6,8 @@ import com.hackaprende.earthquakemonitor.api.EarthquakesApi
 import com.hackaprende.earthquakemonitor.database.EqDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONException
-import java.net.UnknownHostException
 
 class MainRepository(private val database: EqDatabase) {
-
     val eqList = database.eqDao.getEarthquakes()
 
     suspend fun fetchEqList() {
