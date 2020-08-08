@@ -5,10 +5,14 @@ import android.os.Bundle
 import com.hackaprende.earthquakemonitor.Earthquake
 import com.hackaprende.earthquakemonitor.R
 import com.hackaprende.earthquakemonitor.databinding.ActivityEqDetailBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EqDetailActivity : AppCompatActivity() {
     companion object {
         const val EQ_KEY = "earthquake"
+
+        private const val TIME_FORMAT = "dd/MMM/yyyy HH:mm:ss"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +25,13 @@ class EqDetailActivity : AppCompatActivity() {
         binding.longitudeText.text = earthquake.longitude.toString()
         binding.latitudeText.text = earthquake.latitude.toString()
         binding.placeText.text = earthquake.place
-        binding.timeText.text = earthquake.time.toString()
+        setupTime(binding, earthquake)
+    }
+
+    private fun setupTime(binding: ActivityEqDetailBinding,
+        earthquake: Earthquake) {
+        val dateFormat = SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
+        val date = Date(earthquake.time)
+        binding.timeText.text = dateFormat.format(date)
     }
 }
